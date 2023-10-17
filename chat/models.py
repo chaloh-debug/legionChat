@@ -4,7 +4,7 @@ User = settings.AUTH_USER_MODEL
 
 class ChatRoom(models.Model):
     name = models.CharField(max_length=40)
-
+    slug = models.SlugField(default="abc", unique=True)
     def _str_(self):
         return self.name
     

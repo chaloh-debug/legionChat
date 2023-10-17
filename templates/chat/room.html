@@ -54,102 +54,40 @@
         <div class="discussion search">
           <div class="searchbar">
             <i class="fa fa-search" aria-hidden="true"></i>
-            <input type="text" id="room-name-input" placeholder="Search..."></input>
+            <input type="text" placeholder="Search..."></input>
           </div>
         </div>
-        <div class="discussion message-active">
-          <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80);">
-            <div class="online"></div>
-          </div>
-          <div class="desc-contact">
-            <p class="name">Megan Leib</p>
-            <p class="message">9 pm at the bar if possible 😳</p>
-          </div>
-          <div class="timer">12 sec</div>
+        {% for rm in room_names %}
+         <div class="discussion message-active">
+            <a class="name" href="{% url 'room' rm.slug %}" >{{ rm.name }}</a>
         </div>
-
-        <div class="discussion">
-          <div class="photo" style="background-image: url(http://e0.365dm.com/16/08/16-9/20/theirry-henry-sky-sports-pundit_3766131.jpg?20161212144602);">
-            <div class="online"></div>
-          </div>
-          <div class="desc-contact">
-            <p class="name">Dave Corlew</p>
-            <p class="message">Let's meet for a coffee or something today ?</p>
-          </div>
-          <div class="timer">3 min</div>
-        </div>
-
-        <div class="discussion">
-          <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1497551060073-4c5ab6435f12?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80);">
-          </div>
-          <div class="desc-contact">
-            <p class="name">Jerome Seiber</p>
-            <p class="message">I've sent you the annual report</p>
-          </div>
-          <div class="timer">42 min</div>
-        </div>
-
-        <div class="discussion">
-          <div class="photo" style="background-image: url(http://thomasdaubenton.xyz/portfolio/images/photo.jpg);">
-            <div class="online"></div>
-          </div>
-          <div class="desc-contact">
-            <p class="name">Thomas Dbtn</p>
-            <p class="message">See you tomorrow ! 🙂</p>
-          </div>
-          <div class="timer">2 hour</div>
-        </div>
-
-        <div class="discussion">
-          <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1553514029-1318c9127859?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80);">
-          </div>
-          <div class="desc-contact">
-            <p class="name">Elsie Amador</p>
-            <p class="message">What the f**k is going on ?</p>
-          </div>
-          <div class="timer">1 day</div>
-        </div>
-
-        <div class="discussion">
-          <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1541747157478-3222166cf342?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=967&q=80);">
-          </div>
-          <div class="desc-contact">
-            <p class="name">Billy Southard</p>
-            <p class="message">Ahahah 😂</p>
-          </div>
-          <div class="timer">4 days</div>
-        </div>
-
-        <div class="discussion">
-          <div class="photo" style="background-image: url(https://images.unsplash.com/photo-1435348773030-a1d74f568bc2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80);">
-            <div class="online"></div>
-          </div>
-          <div class="desc-contact">
-            <p class="name">Paul Walker</p>
-            <p class="message">You can't see me</p>
-          </div>
-          <div class="timer">1 week</div>
-        </div>
+        {% endfor %}
       </section>
       <section class="chat">
         <div class="header-chat">
           <i class="icon fa fa-user-o" aria-hidden="true"></i>
-          <p class="name">{{ room_name }}</p>
+          <p class="name">{{ room.name }}</p>
           <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
         </div>
         <div class="messages-chat" id="chat-log ">
-          <textarea class="messages-chat" id="chat-log" cols="100" rows="20"></textarea><br>
+          <div class="message text-only">
+            <p class="text">lorem ipsum docol sit amet.</p>
+          </div>
+          <p class="time">{{request.user.username}}</p>
+          
         </div>
         <div class="footer-chat">
           <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
           <input type="text" class="write-message" id="chat-message-input" placeholder="Type your message here" />
         <button class="icon send fa fa-paper-plane-o clickable" type="button" id="chat-message-submit" value="Send">Send</button>
-        {{ room_name|json_script:"room-name" }}
         </div>
       </section>
     <script src="{% static 'assets/js/script.js' %}"></script>
+    {{ room.slug|json_script:"room-name" }}
+    {{ request.user.username|json_script:"user-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const userName = JSON.parse(document.getElementById('user-name').textContent);
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -158,20 +96,29 @@
             + roomName
             + '/'
         );
-        
+        /*
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             document.querySelector('#chat-log').value += (data.message + '\n');
         };
-        /*
-        chatSocket.onmessage = function (e) {
-          const data = JSON.parse(e.data);
-          var div = document.createElement("div");
-          div.innerHTML = data.username + " : " + data.message;
-          document.querySelector("#chat-message-input").value = "";
-          document.querySelector("#chat-log").appendChild(div);
-        };
         */
+        chatSocket.onmessage = function (e) {
+          console.log('onmessage')
+
+          const data = JSON.parse(e.data);
+
+          if (data.message) {
+            let html = '<div class="message text-only">';
+                html += '<p class="text">' + data.message + '</p></div>';
+                html += '<p class="time">' + data.username + '</p>';
+               
+            document.querySelector("#chat-log").innerHTML += html;
+
+          } else {
+            alert('The message was empty!');
+          }
+        };
+        
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
@@ -184,27 +131,18 @@
         };
 
         document.querySelector('#chat-message-submit').onclick = function(e) {
+            e.preventDefault();
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'username': userName,
+                'room': roomName
             }));
             messageInputDom.value = '';
+
+            return false;
         };
     </script>
-    <script>
-      document.querySelector('#room-name-input').focus();
-      document.querySelector('#room-name-input').onkeyup = function(e) {
-          if (e.key === 'Enter') {  // enter, return
-              document.querySelector('#room-name-submit').click();
-          }
-      };
-
-      document.querySelector('#room-name-submit').onclick = function(e) {
-          var roomName = document.querySelector('#room-name-input').value;
-          var loc = new URL("http://127.0.0.1:8000/");
-          loc.pathname = '/chat/' + roomName + '/';
-      };
-  </script>
 </body>
 </html>
