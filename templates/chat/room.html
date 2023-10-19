@@ -1,4 +1,3 @@
-<!-- chat/templates/chat/room.html -->
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -7,6 +6,14 @@
     <title>Chat Room</title>
     <link rel="stylesheet" href="{% static 'assets/css/chatpage.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{% static 'assets/js/script.js' %}"></script>
+    <style>
+      .messages-chat {
+        height: 450px;
+        overflow-y: scroll;
+        padding: 0 20px;
+      }
+      </style>
 </head>
 <body>
     <div class="sidebar">
@@ -69,20 +76,22 @@
           <p class="name">{{ room.name }}</p>
           <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
         </div>
-        <div class="messages-chat" id="chat-log ">
+        <div class="messages-chat" id="chat-messages">
+          {% for message in messages %}
           <div class="message text-only">
-            <p class="text">lorem ipsum docol sit amet.</p>
-          </div>
-          <p class="time">{{request.user.username}}</p>
-          
+            <div class="response">
+              <p class="response-time time">{{ message.user.username }}</p>
+              <p class="text">{{ message.content }}</p>
+              <p class="response-time time">{{ message.timestamp }}</p></div></div>
+          {% endfor %}
         </div>
+
         <div class="footer-chat">
-          <i class="icon fa fa-smile-o clickable" style="font-size:25pt;" aria-hidden="true"></i>
+          <i class="icon fa fa-smile-o clickable" style="font-size:15pt;" aria-hidden="true"></i>
           <input type="text" class="write-message" id="chat-message-input" placeholder="Type your message here" />
-        <button class="icon send fa fa-paper-plane-o clickable" type="button" id="chat-message-submit" value="Send">Send</button>
+          <i class="e" id="chat-message-submit" aria-hidden="true"></i>
         </div>
       </section>
-    <script src="{% static 'assets/js/script.js' %}"></script>
     {{ room.slug|json_script:"room-name" }}
     {{ request.user.username|json_script:"user-name" }}
     <script>
@@ -96,12 +105,7 @@
             + roomName
             + '/'
         );
-        /*
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
-        */
+
         chatSocket.onmessage = function (e) {
           console.log('onmessage')
 
@@ -109,11 +113,13 @@
 
           if (data.message) {
             let html = '<div class="message text-only">';
-                html += '<p class="text">' + data.message + '</p></div>';
-                html += '<p class="time">' + data.username + '</p>';
-               
-            document.querySelector("#chat-log").innerHTML += html;
+                html += '<div class="response">';
+                html += '<p class="response-time time">' + data.username + '</p>';
+                html += '<p class="text">' + data.message + '</p>';
+                html += '<p class="response-time time">{{ time }}</p></div></div>';
+            document.querySelector("#chat-messages").innerHTML += html;
 
+            scrollToBottom();
           } else {
             alert('The message was empty!');
           }
@@ -143,6 +149,13 @@
 
             return false;
         };
+
+        function scrollToBottom() {
+          const objDiv = document.querySelector('#chat-messages');
+          objDiv.scrollTop = objDiv.scrollHeight;
+        }
+
+        scrollToBottom();
     </script>
 </body>
 </html>
