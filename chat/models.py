@@ -7,7 +7,8 @@ class ChatRoom(models.Model):
     slug = models.SlugField(default="abc", unique=True)
     def _str_(self):
         return self.name
-    
+
+
 class Message(models.Model):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

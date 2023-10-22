@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import SignupPageView, ProfilePageView
+from .views import SignupPageView, profile, account, account_search
 urlpatterns = [
     path('signup/', SignupPageView.as_view(), name='signup'),
-    path('dashboard/profile/', ProfilePageView.as_view(), name='profile'),
+    path('update/', profile, name='profile1'),
+    path('<user_id>/', account, name='account'),
+    path('search/', account_search, name='search'),
 ]

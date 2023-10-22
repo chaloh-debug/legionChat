@@ -1,0 +1,84 @@
+<!-- chat/templates/chat/index.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+    <link rel="stylesheet" href="{% static 'assets/css/friendspage.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- side nav bar -->
+    <div class="sidebar">
+        <div  class="logo"></div>
+        <ul class="menu">
+          <li class="active">
+            <a href="{% url 'chat' %}">
+              <i class="fas fa-comments"></i>
+              <span>aside</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-comments"></i>
+              <span>asides</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-user"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'friends' %}">
+              <i class="fas fa-user-friends"></i>
+              <span>Friends</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'requests' %}">
+              <i class="fas fa-user-plus"></i>
+              <span>Requests</span>
+            </a>
+          </li>
+          <li class="logout">
+            {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+            {% else %}
+            <a href="{% url 'account_signup' %}">
+              <i class="fas fa-sign-in-alt"></i>
+              <span>Login</span>
+            </a>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <h2>LegionChat</h2>
+            </div>
+            <div class="user--info">
+                <div class="search--box" onsubmit="return executeQuery();">
+                    <i class="fa fa-search"></i>
+                    <input type="text" id="search_field" placeholder="Search..."></input>
+                </div>
+            </div>
+        </div>
+    {% block content %}
+    {% endblock content %}
+    </div>
+    <script>
+      function executeQuery() {
+        var query = document.getElementById("search_field").value;
+        window.location.replace("{% url 'search' %}?q=" + query)
+        return false
+      }
+    </script>
+</body>
+</html>

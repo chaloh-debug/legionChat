@@ -1,75 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-    <link rel="stylesheet" href="{% static 'assets/css/chatpage.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="{% static 'assets/js/script.js' %}"></script>
-    <style>
-      .messages-chat {
-        height: 450px;
-        overflow-y: scroll;
-        padding: 0 20px;
-      }
-      </style>
-</head>
-<body>
-    <div class="sidebar">
-        <div  class="logo"></div>
-        <ul class="menu">
-          <li class="active">
-            <a href="{% url 'chat' %}">
-              <i class="fas fa-comments"></i>
-              <span>aside</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-comments"></i>
-              <span>asides</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-user"></i>
-              <span>Profile</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-user-friends"></i>
-              <span>Friends</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-user-plus"></i>
-              <span>Requests</span>
-            </a>
-          </li>
-          <li class="logout">
-            <a href="#">
-              <i class="fas fa-sign-out-alt"></i>
-              <span>Logout</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <section class="discussions">
-        <div class="discussion search">
-          <div class="searchbar">
-            <i class="fa fa-search" aria-hidden="true"></i>
-            <input type="text" placeholder="Search..."></input>
-          </div>
-        </div>
-        {% for rm in room_names %}
-         <div class="discussion message-active">
-            <a class="name" href="{% url 'room' rm.slug %}" >{{ rm.name }}</a>
-        </div>
-        {% endfor %}
-      </section>
+{% extends "chat/chat.html" %}
+{% block content %}
       <section class="chat">
         <div class="header-chat">
           <i class="icon fa fa-user-o" aria-hidden="true"></i>
@@ -78,11 +8,21 @@
         </div>
         <div class="messages-chat" id="chat-messages">
           {% for message in messages %}
-          <div class="message text-only">
-            <div class="response">
-              <p class="response-time time">{{ message.user.username }}</p>
+            {% if message.user == user %}
+            <div class="message text-only" style="font-size:10pt;">
+              <div class="response">
+                <p class="response-time time">{{ message.user.username }}</p>
+                <p class="text">{{ message.content }}</p>
+                <p class="response-time time">{{ message.timestamp }}</p>
+              </div>
+            </div>
+            {% else %}
+            <div class="message">
+            <p class="time">{{ message.user.username }}</p>
               <p class="text">{{ message.content }}</p>
-              <p class="response-time time">{{ message.timestamp }}</p></div></div>
+            </div>
+              <p class="time">{{ message.timestamp }}</p>
+            {% endif %}
           {% endfor %}
         </div>
 
@@ -115,7 +55,7 @@
             let html = '<div class="message text-only">';
                 html += '<div class="response">';
                 html += '<p class="response-time time">' + data.username + '</p>';
-                html += '<p class="text">' + data.message + '</p>';
+                html += '<p class="text" style="font-size:10pt;">' + data.message + '</p>';
                 html += '<p class="response-time time">{{ time }}</p></div></div>';
             document.querySelector("#chat-messages").innerHTML += html;
 
@@ -157,5 +97,4 @@
 
         scrollToBottom();
     </script>
-</body>
-</html>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends '../friends/friends.html' %}
+{% load static %}
+{% block content %}
+{% block title %}Profile Page{% endblock title %}
+    <div class="row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ avatar }} " />
+    </div>
+    <div>
+        <p>Email</p>
+        {% if id == request.user.id %}
+            <h5>{{ email }}</h5>
+        {% else %}
+            <h5>********</h5>
+        {% endif %}
+        <p>Username</p>
+        <h5>{{ username }}</h5>
+        <p>Bio</p>
+        <h5>{{ bio }}</h5>
+
+        {% if id == request.user.id %}
+        <button href={% url "profile1" %}>Update</button>
+        {% endif %}
+    </div>
+{% endblock content %}

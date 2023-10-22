@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import ChatRoom, Message
 from datetime import datetime
-from time import strftime
+# from time import strftime
+
 
 @login_required
 def chat(request):

@@ -1,4 +1,3 @@
-<!-- chat/templates/chat/index.html -->
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -7,6 +6,21 @@
     <title>Chat Rooms</title>
     <link rel="stylesheet" href="{% static 'assets/css/chatpage.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+      .messages-chat {
+        height: 450px;
+        overflow-y: scroll;
+        padding: 0 20px;
+      }
+      </style>
+      <style>
+        .discussions {
+          height: 621px;
+          overflow-y: scroll;
+          padding: 0 20px;
+        }
+      </style>
 </head>
 <body>
     <!-- side nav bar -->
@@ -26,19 +40,19 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'profile1' %}">
               <i class="fas fa-user"></i>
               <span>Profile</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'friends' %}">
               <i class="fas fa-user-friends"></i>
               <span>Friends</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'requests' %}">
               <i class="fas fa-user-plus"></i>
               <span>Requests</span>
             </a>
@@ -58,13 +72,12 @@
           </li>
         </ul>
       </div>
-      {% block content %}
       <!-- Main content -->
       <section class="discussions">
         <div class="discussion search">
           <div class="searchbar">
             <i class="fa fa-search" aria-hidden="true"></i>
-            <input type="text" placeholder="Search..."></input>
+            <input type="text" id="search-name-input" placeholder="Search..."></input>
           </div>
         </div>
         {% for rm in room_names %}
@@ -73,6 +86,7 @@
         </div>
         {% endfor %}
       </section>
+      {% block content %}
       <div class="chat">
         <div class="header-chat">
           <i class="icon fa fa-user-o" aria-hidden="true"></i>
@@ -91,7 +105,7 @@
         <br />
       </div>
       </div> 
-      {% endblock content %}
+      
     <script src="{% static 'assets/js/script.js' %}"></script>
     <script>
         document.querySelector('#room-name-input').focus();
@@ -106,5 +120,19 @@
             window.location.pathname = '/chat/' + roomName + '/';
         };
     </script>
+    {% endblock content %}
+    <script>
+      document.querySelector('#search-name-input').focus();
+      document.querySelector('#search-name-input').onkeyup = function(e) {
+          if (e.key === 'Enter') {  // enter, return
+              document.querySelector('#search-name-submit').click();
+          }
+      };
+
+      document.querySelector('#search-name-submit').onclick = function(e) {
+          var roomName = document.querySelector('#search-name-input').value;
+          window.location.replace("{% url 'search' %}?q=" + query);
+        };
+  </script>
 </body>
 </html>
