@@ -18,7 +18,57 @@
         <h5>{{ bio }}</h5>
 
         {% if id == request.user.id %}
-        <button href={% url "profile1" %}>Update</button>
+        <button class="btn btn-primary" href="{% url "profile1" %}">Update</button>
         {% endif %}
     </div>
+    <div class"row my-3 p-3">
+        <h3>Request</h3>
+        <button class="btn btn-primary" id="id_send_friend_request_btn">Send Request</button>
+        <button class="btn btn-primary" href="#">Accept Request</button>
+    </div>
 {% endblock content %}
+<div class="row my-3 p-3">
+    <h3>Friends</h3>
+    {% for friend in friends %}
+        <div class="col-4">
+            <img class="rounded-circle account-img" src="{{ friend.avatar }} " />
+            <h5>{{ friend.username }}</h5>
+        </div>
+    {% endfor %}
+
+<script type="text/javascript">
+    var sendFriendRequestBtn = document.getElementById("id_send_friend_request_btn")
+	if (sendFriendRequestBtn != null){
+		sendFriendRequestBtn.addEventListener("click", function(){
+			sendFriendRequest("{{id}}")
+		})
+	}
+
+    function sendFriendRequest(id){
+        payload = {
+            "csrfmiddlewaretoken": "{{ csrf_token }}",
+            "receiver_user_id": id,
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: "json",
+            url: "{% url 'friend_request' %}",
+            timeout: 5000,
+            data: context,
+            success: function(data) {
+                console.log("SUCCESS", data)
+                if(data['response'] == "Friend request sent."){
+                }
+                else if(data['response'] != null){
+                    alert(data['response'])
+                }
+            },
+            error: function(data) {
+                console.error("ERROR...", data)
+                alert("Something went wrong.")
+            }
+        });
+    }
+    
+
+</script>

@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from accounts.models import Profile
+from django.http import HttpResponse
+import json
+from friends.models import FriendRequest, Friends
+
 
 # Create your views here.
 class friends(TemplateView):
@@ -42,3 +46,32 @@ def profile(request, *args, **kwargs):
     context['is_friend'] = is_friend
 
     return render(request, "friends/profile.html", context)
+
+
+@login_required
+def sendFriendReq(request):
+    user = request.user
+    context = {}
+    user_id = request.POST.get("receiver_user_id")
+    if user_id:
+        receiver = Profile.objects.get(pk=user_id)
+        try:
+            friend_requests = FriendRequest.objects.filter(sender=user, receiver=receiver)
+
+            try:
+                for request in friend_requests:
+                    if request.is_active:
+                        raise Exception("you already sent a request!")
+                friend_request = FriendRequest(sender=user, receiver=receiver)
+                friend_request.save()
+                context["response"] = "Friend request sent."
+            except Exception as e:
+                context["response"] =str(e)
+        except FriendRequest.DoesNotExist:
+            friend_request = FriendRequest(sender=user, receiver=receiver)
+            friend_request.save()
+            context["response"] = "Friend request sent."
+
+    else:
+        context["response"] = "Unable to send request."
+    return HttpResponse(json.dumps(context), content_type="application/json")

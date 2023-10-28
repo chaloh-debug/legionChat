@@ -4,5 +4,5 @@ urlpatterns = [
     path('signup/', SignupPageView.as_view(), name='signup'),
     path('update/', profile, name='profile1'),
     path('<user_id>/', account, name='account'),
-    path('search/', account_search, name='search'),
+    path('', account_search, name='search'),
 ]

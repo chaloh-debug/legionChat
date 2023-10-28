@@ -72,13 +72,11 @@ def account_search(request):
     if request.method == "GET":
         search_req = request.GET.get("q")
         if len(search_req) > 0:
-            search_res = Profile.objects.filter(email__icontains=search_req).filter(
+            search_res = User.objects.filter(email__icontains=search_req).filter(
                 username__icontains=search_req).distinct()
             accounts = []
             for account in search_res:
                 accounts.append((account, False))
                 context['accounts'] = accounts
 
-    return render(request, "accounts/search_req.html", context)
-
-
+    return render(request, "account/search_req.html", context)
