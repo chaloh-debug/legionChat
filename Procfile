@@ -1,1 +1,1 @@
-web: gunicorn legionChat.wsgi --log-file -
+web: gunicorn legionChat.asgi:application -k uvicorn.workers.UvicornWorker

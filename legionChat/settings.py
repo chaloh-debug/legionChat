@@ -177,7 +177,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = 'accounts.CustomUser'
 
-LOGIN_REDIRECT_URL = 'room'
+LOGIN_REDIRECT_URL = 'chat'
 LOGOUT_REDIRECT_URL = 'chat'
 
 #allauth config
