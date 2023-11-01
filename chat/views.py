@@ -1,9 +1,13 @@
-# chat/views.py
+from django.views.generic import TemplateView, DeleteView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import ChatRoom, Message
 from datetime import datetime
 # from time import strftime
+
+
+def index(context):
+    return render(context, 'index.html')
 
 
 @login_required
