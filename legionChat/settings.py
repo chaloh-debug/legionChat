@@ -115,7 +115,7 @@ DATABASES = {
         'NAME': 'legionchat',
         'USER': 'chaloh',
         'PASSWORD': 'chaloh123',
-        'HOST': 'localhost',
+        'HOST': ALLOWED_HOSTS,
         'PORT': '',
     }}
 

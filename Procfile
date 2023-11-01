@@ -1,1 +1,1 @@
-web: gunicorn legionChat.wsgi --log-file -
+web: gunicorn legionChat.asgi --log-file -
