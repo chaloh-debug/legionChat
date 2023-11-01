@@ -10,7 +10,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),
 
-    path('chat/', include('chat.urls')),
+    path('', include('chat.urls')),
     
     path('', include('friends.urls')),
 
