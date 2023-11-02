@@ -1,31 +1,32 @@
-{% extends '_base.html' %}
 {% load static %}
-{% block extrahead %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% endblock %}
-{% block title %}Home{% endblock title %}
-{% block content %}
-	<header>
-     <h1><a href="{% url 'chat' %}">legionChat</h1>
-     <nav class="nav-header">
-       <ul class="links">
-         <li>FAQs</li>
-         <li><a href="#footer">Contact us</a></li>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
+  <title>Home</title>
+
+</head>
+
+<body>
+<div class="main--content">
+  <div class="header--wrapper">
+    <div class="header--title">
+        <div><a href="{% url 'chat' %}">LegionChat</a></div>
+    </div>
+    <div class="user--info">
           {% if user.is_authenticated %}
             <li><a href="{% url 'account_logout' %}">Log Out</a></li>
-
           {% else %}
             <li><a href="{% url 'account_login' %}">Log In</a></li>
             <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
           {% endif %}
-       </ul>
-     </nav>
-      </nav>
-  </header>
-	<main class="main-content">
-		
-	</main>	
-    <footer id="footer">
-    
-  </footer>	
-{% endblock content %}
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
