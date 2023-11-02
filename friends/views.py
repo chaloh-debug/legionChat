@@ -9,9 +9,16 @@ import json
 from friends.models import FriendRequest, Friends
 
 
-# Create your views here.
-class friends(TemplateView):
-    template_name="friends/friends.html"
+@login_required
+def friends(request, *args, **kwargs):
+    context = {}
+    user = request.user
+    user_id = request.user.id
+    account = User.objects.get(pk=user_id)
+    if account == user:
+            friend_requests = FriendRequest.objects.filter(receiver=account)
+            context['friend_requests'] = friend_requests
+    return render(request, "friends/friends.html", context)
 
 def requests(context):
     allUsers = User.objects.all()
@@ -54,7 +61,7 @@ def sendFriendReq(request):
     context = {}
     user_id = request.POST.get("receiver_user_id")
     if user_id:
-        receiver = Profile.objects.get(pk=user_id)
+        receiver = User.objects.get(pk=user_id)
         try:
             friend_requests = FriendRequest.objects.filter(sender=user, receiver=receiver)
 

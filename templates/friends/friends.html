@@ -1,4 +1,3 @@
-<!-- chat/templates/chat/index.html -->
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -17,7 +16,7 @@
           <li class="active">
             <a href="{% url 'chat' %}">
               <i class="fas fa-comments"></i>
-              <span>aside</span>
+              <span>chats</span>
             </a>
           </li>
           <li>
@@ -65,7 +64,17 @@
               </form>
             </div>
         </div>
-    {% block content %}
+        {% block content %}
+        <section class="discussions">
+          {% if friend_requests %}
+          {% for request in friend_requests  %}
+           <div class="discussion message-active">
+              <img class="rounded-circle account-img" src="{{ user.avatar.url }} " />
+              <a class="name" href="{% url 'account' request.sender.id %}" >{{ request.sender.username }}</a> 
+          </div>
+          {% endfor %}
+          {% endif%}
+      </section>
     {% endblock content %}
     </div>
     <script>

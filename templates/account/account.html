@@ -1,41 +1,46 @@
-{% extends '../friends/friends.html' %}
 {% load static %}
 {% block content %}
-{% block title %}Profile Page{% endblock title %}
-    <div class="row my-3 p-3">
-        <img class="rounded-circle account-img" src="{{ avatar }} " />
-    </div>
-    <div>
-        <p>Email</p>
-        {% if id == request.user.id %}
-            <h5>{{ email }}</h5>
-        {% else %}
-            <h5>********</h5>
-        {% endif %}
-        <p>Username</p>
-        <h5>{{ username }}</h5>
-        <p>Bio</p>
-        <h5>{{ bio }}</h5>
-
-        {% if id == request.user.id %}
-        <button class="btn btn-primary" href="{% url "profile1" %}">Update</button>
-        {% endif %}
-    </div>
-    <div class"row my-3 p-3">
-        <h3>Request</h3>
-        <button class="btn btn-primary" id="id_send_friend_request_btn">Send Request</button>
-        <button class="btn btn-primary" href="#">Accept Request</button>
-    </div>
-{% endblock content %}
-<div class="row my-3 p-3">
-    <h3>Friends</h3>
-    {% for friend in friends %}
-        <div class="col-4">
-            <img class="rounded-circle account-img" src="{{ friend.avatar }} " />
-            <h5>{{ friend.username }}</h5>
+ <!-- Add icon library -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <link rel="stylesheet" href="{% static 'assets/css/account.css' %}">
+ <body>
+<div class="main--content">
+    <div class="header--wrapper">
+        <div class="header--title">
+            <div><a href="{% url 'chat' %}">LegionChat</a></div>
         </div>
-    {% endfor %}
+        <div class="user--info">
+              {% if user.is_authenticated %}
+                <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+              {% else %}
+                <li><a href="{% url 'account_login' %}">Log In</a></li>
+                <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+              {% endif %}
+        </div>
+    </div>
+    <div class="card">
+        <img src="{{ avatar }}" style="width:100%">
+        <p>Email</p>
+             {% if id == request.user.id %}
+                 <h5>{{ email }}</h5>
+             {% else %}
+                 <h5>********</h5>
+             {% endif %}
+             <p>Username</p>
+             <h5>{{ username }}</h5>
+             <p>Bio</p>
+             <h5>{{ bio }}</h5>
+     
+             {% if id == request.user.id %}
+             <button><a href="{% url 'profile1' %}">Update</a></button>
+             {% endif %}
+        <button><a id="id_send_friend_request_btn">Send Request</a></button>
+</div>
 
+ 
+{% endblock content %}
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
     var sendFriendRequestBtn = document.getElementById("id_send_friend_request_btn")
 	if (sendFriendRequestBtn != null){
@@ -45,7 +50,7 @@
 	}
 
     function sendFriendRequest(id){
-        payload = {
+        context = {
             "csrfmiddlewaretoken": "{{ csrf_token }}",
             "receiver_user_id": id,
         }
@@ -72,3 +77,4 @@
     
 
 </script>
+
