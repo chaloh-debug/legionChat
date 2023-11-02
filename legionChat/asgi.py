@@ -4,7 +4,6 @@ settings.configure()
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "legionChat.settings")
 import django
 django.setup()
-import chat.routing
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
