@@ -43,7 +43,7 @@ For users wishing to directly use or customize the application.
   />
 </p>
 
-5. Visit the legionChat request section to view user profiles and send friend requests.
+5. Visit the legionChat request section to view users.
 
 <p align="center">
   <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/users.png"
@@ -51,7 +51,15 @@ For users wishing to directly use or customize the application.
   />
 </p>
 
-6. Visit the legionChat friends section to view received friend requests.
+5. Visit the legionChat request section,select a user to view their profile and send a friend request.
+
+<p align="center">
+  <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/profile.png"
+       width="600"
+  />
+</p>
+
+7. Visit the legionChat friends section to view received friend requests.
 
 <p align="center">
   <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/friends.png"
