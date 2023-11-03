@@ -30,7 +30,7 @@ For users wishing to directly use or customize the application.
 3. Visit the legionChat chat section to create or join existing rooms.
 
 <p align="center">
-  <img src="https://github.com/chaloh-debug/legionChat/blob/main/legionChat/static/images/dash.png"
+  <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/rooms.png"
        width="600"
   />
 </p>
@@ -38,7 +38,7 @@ For users wishing to directly use or customize the application.
 3. Start Chatting.
 
 <p align="center">
-  <img src="https://github.com/chaloh-debug/legionChat/blob/main/legionChat/static/images/dash.png"
+  <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/chats.png"
        width="600"
   />
 </p>
@@ -46,7 +46,7 @@ For users wishing to directly use or customize the application.
 5. Visit the legionChat request section to view user profiles and send friend requests.
 
 <p align="center">
-  <img src="https://github.com/chaloh-debug/legionChat/blob/main/legionChat/static/images/dash.png"
+  <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/users.png"
        width="600"
   />
 </p>
@@ -54,7 +54,7 @@ For users wishing to directly use or customize the application.
 6. Visit the legionChat friends section to view received friend requests.
 
 <p align="center">
-  <img src="https://github.com/chaloh-debug/legionChat/blob/main/legionChat/static/images/dash.png"
+  <img src="https://github.com/chaloh-debug/legionChat/blob/main/static/assets/images/friends.png"
        width="600"
   />
 </p>
